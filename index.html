@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Twin Finds — Squishy Shop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Mali:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pink:#ffd6e0; --mint:#d4f0e2; --cream:#fff8ef; --lav:#e6e0f8; --sky:#d9ecf7;
+    --ink:#5a4a52; --soft:#9b8791; --accent:#f28bab; --accent-dark:#e06a90;
+    --line:#06c755; --card:#ffffff;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    font-family:'Prompt',system-ui,sans-serif; color:var(--ink);
+    background:linear-gradient(160deg,var(--cream) 0%,var(--pink) 30%,var(--lav) 65%,var(--sky) 100%);
+    background-attachment:fixed; min-height:100vh;
+  }
+  header{
+    text-align:center; padding:44px 16px 16px;
+  }
+  .logo{
+    display:inline-block; position:relative; background:rgba(255,255,255,.78); backdrop-filter:blur(6px);
+    border-radius:32px; padding:26px 58px 22px; box-shadow:0 10px 28px rgba(240,150,180,.3);
+    border:3px dashed #ffc4d6;
+  }
+  .logo .deco{
+    position:absolute; font-size:1.7rem; filter:drop-shadow(0 3px 4px rgba(0,0,0,.12));
+    animation:float 3s ease-in-out infinite;
+  }
+  .logo .deco.d1{top:-16px; left:-14px; animation-delay:0s}
+  .logo .deco.d2{top:-18px; right:-10px; animation-delay:.6s}
+  .logo .deco.d3{bottom:-14px; left:22px; font-size:1.4rem; animation-delay:1.2s}
+  .logo .deco.d4{bottom:-12px; right:26px; font-size:1.4rem; animation-delay:1.8s}
+  @keyframes float{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-7px) rotate(8deg)}}
+  .logo h1{
+    font-family:'Mali',cursive; font-size:2.6rem; font-weight:700; letter-spacing:1px; line-height:1.15;
+    background:linear-gradient(90deg,#ff7fa8,#c79bf2,#7fc8f5); -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .logo h1 .bounce{display:inline-block; animation:hop 2.2s ease-in-out infinite}
+  @keyframes hop{0%,100%{transform:translateY(0)}30%{transform:translateY(-6px) rotate(-8deg)}60%{transform:translateY(0)}}
+  .logo .logoimg{
+    width:96px; height:96px; object-fit:cover; border-radius:50%;
+    border:3px solid #ffc4d6; box-shadow:0 6px 16px rgba(240,150,180,.35);
+    margin-bottom:8px; animation:float 4s ease-in-out infinite;
+  }
+  .logo .brands{
+    margin-top:6px; font-size:.82rem; font-weight:600; letter-spacing:2.5px;
+    color:#b48fc9; text-transform:uppercase;
+  }
+  .logo .tagline{
+    display:inline-flex; align-items:center; gap:7px; margin-top:10px;
+    background:linear-gradient(90deg,var(--pink),var(--lav)); border-radius:999px;
+    padding:6px 18px; font-size:.9rem; font-weight:500; color:#8a6a7c;
+  }
+  .tabs{
+    display:flex; flex-wrap:wrap; justify-content:center; gap:10px; padding:22px 16px 8px;
+  }
+  .tab{
+    border:none; cursor:pointer; font-family:inherit; font-size:.92rem; font-weight:500;
+    padding:9px 22px; border-radius:999px; background:rgba(255,255,255,.75); color:var(--soft);
+    box-shadow:0 3px 10px rgba(0,0,0,.05); transition:.2s;
+  }
+  .tab:hover{transform:translateY(-2px)}
+  .tab.active{background:var(--accent); color:#fff; box-shadow:0 5px 14px rgba(226,106,144,.4)}
+  .grid{
+    max-width:1180px; margin:18px auto 40px; padding:0 18px;
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:22px;
+  }
+  .card{
+    background:var(--card); border-radius:22px; overflow:hidden; cursor:pointer;
+    box-shadow:0 6px 18px rgba(180,140,170,.16); transition:.25s; position:relative;
+    display:flex; flex-direction:column;
+  }
+  .card:hover{transform:translateY(-6px); box-shadow:0 14px 28px rgba(180,140,170,.28)}
+  .card .imgwrap{aspect-ratio:1/1; background:#fff; display:flex; align-items:center; justify-content:center; overflow:hidden}
+  .card img{width:100%; height:100%; object-fit:contain}
+  .card .info{padding:14px 16px 16px; display:flex; flex-direction:column; gap:8px; flex:1}
+  .card h3{font-size:1rem; font-weight:600; line-height:1.35}
+  .stock{font-size:.82rem; color:var(--soft)}
+  .stock b{color:var(--accent-dark)}
+  .buy{
+    margin-top:auto; border:none; cursor:pointer; font-family:inherit; font-weight:600; font-size:.9rem;
+    background:linear-gradient(90deg,var(--accent),#b89aec); color:#fff;
+    padding:10px; border-radius:14px; transition:.2s;
+  }
+  .buy:hover{filter:brightness(1.07)}
+  .badge{
+    position:absolute; top:12px; left:12px; z-index:2; font-size:.72rem; font-weight:700;
+    padding:5px 13px; border-radius:999px; color:#fff; letter-spacing:.4px;
+    background:linear-gradient(90deg,#ff8fab,#ff5c8a); box-shadow:0 4px 10px rgba(255,92,138,.4);
+    animation:pulse 1.8s infinite;
+  }
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+  .badge.sold{background:#b3aab0; animation:none; box-shadow:none}
+  .card.soldout .imgwrap{filter:grayscale(.7) opacity(.75)}
+  .card.soldout .buy{background:#d8d2d6; cursor:default}
+  /* LINE floating button */
+  .line-fab{
+    position:fixed; right:20px; bottom:20px; z-index:50; border:none; cursor:pointer;
+    background:var(--line); color:#fff; font-family:inherit; font-weight:600; font-size:.95rem;
+    padding:14px 22px; border-radius:999px; display:flex; align-items:center; gap:9px;
+    box-shadow:0 8px 20px rgba(6,199,85,.45); transition:.2s;
+  }
+  .line-fab:hover{transform:scale(1.05)}
+  .line-fab svg{width:22px;height:22px;fill:#fff}
+  /* modal */
+  .overlay{
+    position:fixed; inset:0; background:rgba(90,74,82,.45); backdrop-filter:blur(4px);
+    display:none; align-items:center; justify-content:center; z-index:100; padding:18px;
+  }
+  .overlay.show{display:flex}
+  .modal{
+    background:#fff; border-radius:24px; max-width:420px; width:100%; max-height:90vh; overflow:auto;
+    padding:26px; text-align:center; position:relative; box-shadow:0 20px 50px rgba(0,0,0,.25);
+  }
+  .modal img.product{width:100%; border-radius:16px}
+  .modal img.qr{width:min(280px,80%); border-radius:16px; margin:12px 0}
+  .modal h3{margin:12px 0 4px; font-size:1.15rem}
+  .modal p{color:var(--soft); font-size:.9rem}
+  .close{
+    position:absolute; top:12px; right:14px; border:none; background:var(--pink); color:var(--ink);
+    width:34px; height:34px; border-radius:50%; font-size:1.05rem; cursor:pointer; font-weight:700;
+  }
+  .modal .buy{width:100%; margin-top:14px; padding:12px}
+  .line-note{background:var(--mint); border-radius:14px; padding:10px 14px; font-size:.85rem; margin-top:10px; color:#3f6b55}
+  footer{
+    text-align:center; padding:34px 16px 110px; color:var(--soft); font-size:.85rem;
+  }
+  footer .contact{
+    display:inline-block; background:rgba(255,255,255,.75); border-radius:20px; padding:18px 30px;
+    box-shadow:0 6px 16px rgba(180,140,170,.18); margin-bottom:14px;
+  }
+  footer .contact b{color:var(--ink); font-size:1rem}
+  footer .contact img{width:170px; display:block; margin:10px auto 0; border-radius:14px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <span class="deco d1">🍓</span>
+    <span class="deco d2">🧸</span>
+    <span class="deco d3">🍌</span>
+    <span class="deco d4">🍰</span>
+    <img class="logoimg" src="S__4513842_0.jpg" alt="Twin Finds Store">
+    <h1><span class="bounce">🐰</span> Twin Finds <span class="bounce" style="animation-delay:.4s">🍮</span></h1>
+    <div class="brands">IBLOOM &bull; Lisa &bull; Zoey &bull; Mido &bull; 3AN</div>
+    <span class="tagline">✨ Squishy น่ารักคัดพิเศษ · ของแท้นำเข้า 100% ✨</span>
+  </div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button class="tab active" data-f="all">All</button>
+  <button class="tab" data-f="new">✨ New Release</button>
+  <button class="tab" data-f="stock">In Stock</button>
+  <button class="tab" data-f="sold">Sold Out</button>
+</nav>
+
+<main class="grid" id="grid"></main>
+
+<footer>
+  <div class="contact">
+    <b>สั่งซื้อ / สอบถามราคา ทัก LINE ได้เลย 💬</b>
+    <img src="S__4513802_0.jpg" alt="LINE QR — Twin Finds">
+    <p>สแกน QR เพื่อแอดไลน์ร้าน Twin Finds</p>
+  </div>
+  <p>© Twin Finds — squishy shop</p>
+</footer>
+
+<button class="line-fab" onclick="openLine()">
+  <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 5.64 2 10.12c0 4.02 3.55 7.39 8.34 8.03.33.07.77.22.88.5.1.26.07.66.03.92l-.14.86c-.04.26-.2 1.01.89.55 1.09-.46 5.87-3.46 8.01-5.92C21.49 13.35 22 11.81 22 10.12 22 5.64 17.52 2 12 2z"/></svg>
+  ทักไลน์ร้าน
+</button>
+
+<div class="overlay" id="overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="modal"></div>
+</div>
+
+<script>
+const QR = "S__4513802_0.jpg";
+const products = [
+  {img:"S__4513846_0.jpg", name:"3(san) An Squishy — Case Cake", stock:6, isNew:true},
+  {img:"S__4513851_0.jpg", name:"3(san) An Sushi", stock:3, isNew:true},
+  {img:"S__4513847_0.jpg", name:"3(san) An Squishy — Case Cake (Pink)", stock:6},
+  {img:"S__4513827_0.jpg", name:"iBloom Chocolate Crepe", stock:2},
+  {img:"S__4513836_0.jpg", name:"iBloom Strawberry Crepe", stock:2},
+  {img:"S__4513838_0.jpg", name:"iBloom Kashiwa-Mochi (Vanilla Scent)", stock:3},
+  {img:"S__4513840_0.jpg", name:"iBloom Sakura-Mochi (Cherry Scent)", stock:3},
+  {img:"S__4513831_0.jpg", name:"Yamawari Over Ripe Banana", stock:2},
+  {img:"S__4513823_0.jpg", name:"Lisa Monster Cookies", stock:2},
+  {img:"S__4513825_0.jpg", name:"Marmo Hanari Kimono", stock:1},
+  {img:"S__4513829_0.jpg", name:"Angel Cat Macaron", stock:1},
+  {img:"S__4513834_0.jpg", name:"Golden Peach", stock:1},
+  {img:"S__4513848_0.jpg", name:"3(san) An Big-Eyed Rabbit (Blue Ribbon)", stock:1},
+  {img:"S__4513849_0.jpg", name:"3(san) An Big-Eyed Rabbit (Brown)", stock:1},
+  {img:"S__4513850_0.jpg", name:"3(san) An Big-Eyed Rabbit (Surf)", stock:1},
+  {img:"S__4513803_0.jpg", name:"iBloom Yawarami Banana (Pink)", stock:5},
+  {img:"S__4513805_0.jpg", name:"iBloom Yawarami Banana Super Big (Yellow)", stock:1},
+  {img:"S__4513820_0.jpg", name:"iBloom Marmo Mashlo Cupcake", stock:4},
+  {img:"S__4513814_0.jpg", name:"iBloom Pushi Mashlo Cupcake", stock:3},
+  {img:"S__4513816_0.jpg", name:"iBloom Chocolate Cake", stock:2},
+  {img:"S__4513809_0.jpg", name:"iBloom Fuwamochi Marmo Mochi", stock:1},
+  {img:"S__4513800_0.jpg", name:"Gyoza-San", stock:1},
+  {img:"S__4513807_0.jpg", name:"Lisa Dark Ginger Bread (Christmas)", stock:1},
+  {img:"S__4513812_0.jpg", name:"Lisa White Brownie", stock:1},
+  {img:"S__4513818_0.jpg", name:"Loki Devil Cat Rollcake", stock:1},
+  {img:"S__4513844_0.jpg", name:"Pao-Tenshu", stock:1},
+  {img:"S__4513845_0.jpg", name:"Petit Monaka (White)", stock:1},
+  {img:"S__4513853_0.jpg", name:"Marmo Toast Twin Set", stock:1},
+  {img:"S__4513852_0.jpg", name:"คอลเลกชันพวงกุญแจ Squishy", stock:0},
+];
+
+const grid = document.getElementById("grid");
+function render(filter){
+  grid.innerHTML = "";
+  products.forEach((p,i)=>{
+    const sold = p.stock===0;
+    if(filter==="new" && !p.isNew) return;
+    if(filter==="stock" && sold) return;
+    if(filter==="sold" && !sold) return;
+    const card = document.createElement("div");
+    card.className = "card"+(sold?" soldout":"");
+    card.innerHTML = `
+      ${p.isNew?'<span class="badge">NEW RELEASE</span>':''}
+      ${sold?'<span class="badge sold">SOLD OUT</span>':''}
+      <div class="imgwrap"><img src="${p.img}" alt="${p.name}" loading="lazy"></div>
+      <div class="info">
+        <h3>${p.name}</h3>
+        <span class="stock">${sold?"สินค้าหมดแล้ว":`พร้อมส่ง เหลือ <b>${p.stock}</b> ชิ้น · สอบถามราคาทางไลน์`}</span>
+        <button class="buy" ${sold?"disabled":""} onclick="event.stopPropagation();openLine('${p.name.replace(/'/g,"\\'")}')">${sold?"หมดแล้ว":"สั่งซื้อ / สอบถาม"}</button>
+      </div>`;
+    card.onclick = ()=>openProduct(i);
+    grid.appendChild(card);
+  });
+}
+document.getElementById("tabs").addEventListener("click",e=>{
+  if(!e.target.dataset.f) return;
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  e.target.classList.add("active");
+  render(e.target.dataset.f);
+});
+
+const overlay=document.getElementById("overlay"), modal=document.getElementById("modal");
+function openProduct(i){
+  const p=products[i], sold=p.stock===0;
+  modal.innerHTML=`
+    <button class="close" onclick="closeModal()">✕</button>
+    <img class="product" src="${p.img}" alt="${p.name}">
+    <h3>${p.name}</h3>
+    <p>${sold?"สินค้าหมดแล้ว":`พร้อมส�
